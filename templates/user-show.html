@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+<title>信息查看 </title>
+{% endblock %}
+
+
+
+{% block breadcrumb %}
+
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 个人中心 <span class="c-gray en">&gt;</span> 信息查看  <a class="btn btn-success radius r"
+                                                    style="line-height:1.6em;margin-top:3px"
+                                                    href="javascript:location.replace(location.href);" title="刷新"><i
+        class="Hui-iconfont">&#xe68f;</i></a></nav>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="cl pd-20" style=" background-color:#5bacb6">
+{#  <img class="avatar avatar-XL l" src="images/user.png">#}
+  <dl style="margin-left:80px; color:#fff">
+    <dt><span class="f-18">{{ name }}</span> <span class="pl-10 f-12"></span> </dt>
+    <dd class="pt-10 f-12" style="margin-left:0"></dd>
+  </dl>
+</div>
+<div class="pd-20">
+  <table class="table">
+    <tbody>
+      <tr>
+        <th class="text-r" width="80">用户名：</th>
+        <td>{{ username }}</td>
+      </tr>
+      <tr>
+        <th class="text-r">机构：</th>
+        <td>{{ dpt1 }}</td>
+      </tr>
+      <tr>
+        <th class="text-r">网点：</th>
+        <td>{{ dpt2 }}</td>
+      </tr>
+      <tr>
+        <th class="text-r">岗位：</th>
+        <td>{{ dpt3 }}</td>
+      </tr>
+          <tr>
+        <th class="text-r">权限：</th>
+        <td>{%  for i in request.user.groups.all %}  {{ i.name }} {% endfor %}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

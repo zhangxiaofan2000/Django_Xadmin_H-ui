@@ -1,0 +1,112 @@
+﻿<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="{% static 'lib/html5shiv.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/respond.min.js' %}"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="{% static 'css/H-ui.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/H-ui.admin.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'lib/Hui-iconfont/1.0.8/iconfont.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'skin/default/skin.css' %}" id="skin"  />
+<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}static/" />
+<!--[if IE 6]>
+<script type="text/javascript" src="{% static 'lib/DD_belatedPNG_0.0.8a-min.js' %}" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>我的桌面</title>
+</head>
+<body>
+<div class="page-container">
+	<p class="f-20 text-success">欢迎使用柜面空中T平台！</p>
+
+	<p>登录时间：{{ request.user.last_login }}</p>
+	<table class="table table-border table-bordered table-bg">
+		<thead>
+			<tr>
+				<th colspan="13" scope="col">意健险未决回访-剩余任务: <strong>{{ wj_num }}</strong></th>
+			</tr>
+			<tr class="text-c">
+            <th>机构</th>
+
+                {% for x in dpt_list %}
+				<th> {{ x }} </th>
+                {% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+				<td>剩余合计</td>
+
+                {% for x in wj_sum %}
+				<td>{{ x }}</td>
+                {% endfor %}
+
+			</tr>
+			<tr class="text-c">
+				<td>分公司常规量</td>
+				{% for x in wj_sum2 %}
+				<td>{{ x }}</td>
+                {% endfor %}
+			</tr>
+        <tr class="text-c">
+				<td>机构专项量</td>
+				{% for x in wj_sum3 %}
+				<td>{{ x }}</td>
+                {% endfor %}
+			</tr>
+        <tr class="text-c">
+				<td>每日优先量</td>
+				{% for x in wj_sum4 %}
+				<td>{{ x }}</td>
+                {% endfor %}
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-border table-bordered table-bg mt-20">
+				<thead>
+			<tr>
+				<th colspan="13" scope="col">团非车清单-剩余任务: <strong>{{ bd_num }}</strong> </th>
+			</tr>
+			<tr class="text-c">
+				<th>机构</th>
+				<th>湖州</th>
+				<th>金华</th>
+				<th>义乌</th>
+				<th>台州</th>
+				<th>丽水</th>
+				<th>嘉兴</th>
+				<th>萧山</th>
+				<th>衢州</th>
+				<th>舟山</th>
+				<th>杭州</th>
+				<th>绍兴</th>
+				<th>西溪</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-c">
+				<td>剩余合计</td>
+				{% for x in bd_sum %}
+				<td>{{ x }}</td>
+                {% endfor %}
+			</tr>
+
+		</tbody>
+	</table>
+</div>
+<footer class="footer mt-20">
+	<div class="container">
+		<p>Copyright &copy;产险浙江线客 All Rights Reserved.<br></p>
+	</div>
+</footer>
+<script type="text/javascript" src="{% static 'lib/jquery/1.9.1/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/H-ui.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="{% static 'lib/html5shiv.js' %}"></script>
+    <script type="text/javascript" src="{% static 'lib/respond.min.js' %}"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/H-ui.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/H-ui.admin.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'lib/Hui-iconfont/1.0.8/iconfont.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'skin/default/../static/skin/black/skin.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="{% static 'lib/DD_belatedPNG_0.0.8a-min.js' %}"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>完成任务</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 团非车清单 <span
+        class="c-gray en">&gt;</span> 团非车清单 <a class="btn btn-success radius r"
+                                                    style="line-height:1.6em;margin-top:3px"
+                                                    href="javascript:location.replace(location.href);" title="刷新"><i
+        class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+
+
+{% if hav_view_prem %}
+    {% if messages %}
+  <script>
+    {% for msg in messages %}
+      alert('{{ msg.message }}');
+    {% endfor %}
+  </script>
+{% endif %}
+    {% if error %}
+        <div class="Huialert Huialert-error"><i class="Hui-iconfont">&#xe6a6;</i>{{ error }}</div>
+    {% endif %}
+
+
+        {% if sucess_state %}
+            <div class="Huialert Huialert-success"><i class="Hui-iconfont">&#xe6a6;</i>提交成功</div>
+        {% endif %}
+
+    <div class="page-container">
+
+
+ <form method="get" action="/grp/finish/">
+        <div class="text-c"> 领取日期范围：
+            <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })" id="logmin"
+                   class="input-text Wdate" style="width:120px;">
+
+            <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })"
+                   id="logmax"
+                   class="input-text Wdate" style="width:120px;">
+            <input  class="input-text" id="搜索" type="text" name="search" placeholder=" 请输入:保单号  " style="width:300px" />
+
+{#            <input class="btn btn-success"  type="submit" <i class="Hui-iconfont">&#xe665;</i> 搜索 value="&nbsp;&nbsp;搜索&nbsp;&nbsp;">#}
+
+            <button  name="" id="" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜索</button>
+        </div>
+</form>
+        <div class="cl pd-5 bg-1 bk-gray mt-20">
+
+            <span class="r">已回收保单：<strong>{{ nums }}</strong> </span>
+        </div>
+
+        <div class="mt-20">
+            <table class="table table-border table-bordered table-bg table-hover table-sort">
+                <thead>
+                <tr class="text-c">
+                    <!--					<th width="40"><input name="" type="checkbox" value=""></th>-->
+                    <th width="200">保单号</th>
+                    <th width="200">批单号</th>
+                    <th width="90">签单保费</th>
+                    <th width="79">三级机构</th>
+                    <th width="79">四级机构</th>
+                    <th width="80">渠道</th>
+                    <th width="90">业务员</th>
+                    <th width="90">产品大类</th>
+                    <th width="110">产品明细</th>
+                    <th width="95">投保人</th>
+                    <th width="90">签单时间</th>
+                    <th width="100">需回收材料</th>
+                    <th width="80">追踪人</th>
+                    <th width="80">追踪机构</th>
+                    <th width="80">追踪时间</th>
+                </tr>
+                </thead>
+
+
+                {% for task in finish_task.object_list %}
+                <tbody>
+                <tr class="text-c">
+                    <!--					<td><input name="" type="checkbox" value=""></td>-->
+
+                    <td>{{ task.policy_no }}</td>
+                    <td>{{ task.endorse_no }}</td>
+                    <td>{{ task.planning_premium }}</td>
+                    <td>{{ task.third_department_abbr_name }}</td>
+                    <td>{{ task.fourth_department_abbr_name }}</td>
+                    <td>{{ task.channel_new }}</td>
+                    <td>{{ task.employee_name }}</td>
+                    <td>{{ task.product_class_name }}</td>
+                    <td>{{ task.product_name }}</td>
+                    <td>{{ task.tbr_name }}</td>
+                    <td>{{ task.underwrite_date }}</td>
+                    <td>{{ task.material }}</td>
+                    <td>{{ task.tracer }}</td>
+                    <td>{{ task.tracer_dept }}</td>
+                    <td>{{ task.trace_date }}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+
+
+            </table>
+        </div>
+
+        <div class="pageturn">
+            <ul class="pagelist">
+                {% if finish_task.has_previous %}
+                    <li class="long"><a href="?{{ finish_task.previous_page_number.querystring }}">上一页</a></li>
+                {% endif %}
+
+                {% for page in finish_task.pages %}
+                    {% if page %}
+                        {% ifequal page finish_task.number %}
+                            <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                        {% endifequal %}
+                    {% else %}
+                        <li class="none"><a href="">...</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if finish_task.has_next %}
+                    <li class="long"><a href="?{{ finish_task.next_page_number.querystring }}">下一页</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+
+    </div>
+
+{% else %}
+    <p> 无权限! </p>
+
+{% endif %}
+
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="{% static 'lib/jquery/1.9.1/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/layer/2.4/layer.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/H-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/H-ui.admin.js' %}"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="{% static 'lib/My97DatePicker/4.8/WdatePicker.js' %}"></script>
+{#<script type="text/javascript" src="{% static 'lib/datatables/1.10.15/jquery.dataTables.min.js' %}"></script>#}
+<script type="text/javascript" src="{% static 'lib/laypage/1.2/laypage.js' %}"></script>
+<script type="text/javascript">
+function modaldemo(){
+  $("#modal-demo").modal("show")
+}
+function modalalertdemo() {
+  $("body").Huimodalalert({
+    content: '我是消息框，2秒后我自动滚蛋！',
+    speed: 2000
+  })
+}
+function uploads() {
+    const form_data = new FormData();
+    form_data.append('files',$('#file_uploads')[0].files[0]);
+    $.ajax({
+        url:'../mail_files_upload_info/',
+        type:'post',
+        contentType:false,
+        processData:false,
+        data:form_data,
+        success: function(callback) {
+            alert('上传完成!')
+        }
+    })
+}
+
+
+        //保存个人资料
+    $('#jsEditUserBtn').on('click', function(){
+        var _self = $(this),
+            $jsEditUserForm = $('#jsEditUserForm')
+            verify = verifySubmit(
+            [
+                {id: '#nick_name', tips: Dml.Msg.epNickName, require: true}
+            ]
+        );
+        if(!verify){
+           return;
+        }
+        $.ajax({
+            cache: false,
+            type: 'post',
+            dataType:'json',
+            url:"/users/info/",
+            data:$jsEditUserForm.serialize(),
+            async: true,
+            beforeSend:function(XMLHttpRequest){
+                _self.val("保存中...");
+                _self.attr('disabled',true);
+            },
+            success: function(data) {
+                if(data.nick_name){
+                    _showValidateError($('#nick_name'), data.nick_name);
+                }else if(data.birday){
+                   _showValidateError($('#birth_day'), data.birday);
+                }else if(data.address){
+                   _showValidateError($('#address'), data.address);
+                }else if(data.status == "failure"){
+                     Dml.fun.showTipsDialog({
+                        title: '保存失败',
+                        h2: data.msg
+                    });
+                }else if(data.status == "success"){
+                    Dml.fun.showTipsDialog({
+                        title: '保存成功',
+                        h2: '个人信息修改成功！'
+                    });
+                    setTimeout(function(){window.location.href = window.location.href;},1500);
+                }
+            },
+            complete: function(XMLHttpRequest){
+                _self.val("保存");
+                _self.removeAttr("disabled");
+            }
+        });
+    });
+
+    $('.table-sort').dataTable({
+        "aaSorting": [[1, "desc"]],//默认第几个排序
+        "bStateSave": true,//状态保存
+        "aoColumnDefs": [
+            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+            {"orderable": false, "aTargets": [0, 8]}// 制定列不参与排序
+        ]
+    });
+
+
+    $(function(){
+        $('#jsStayBtn').on('click', function(){
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url:"{% url "weijue:addtask" %}",
+                data:$('#jsStayForm').serialize(),
+                async: true,
+                success: function(data) {
+                    if(data.status == 'success'){
+                        $('#jsStayForm')[0].reset();
+                        alert("提交成功")
+                    }else if(data.status == 'fail'){
+                        $('#jsCompanyTips').html(data.msg)
+                    }
+                },
+            });
+        });
+    })
+    /*图片-添加*/
+    function task_add(title, url) {
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+
+    /*图片-查看*/
+    function picture_show(title, url, id) {
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+
+    /*图片-审核*/
+    function picture_shenhe(obj, id) {
+        layer.confirm('审核文章？', {
+                btn: ['通过', '不通过'],
+                shade: false
+            },
+            function () {
+                $(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="picture_start(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
+                $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
+                $(obj).remove();
+                layer.msg('已发布', {icon: 6, time: 1000});
+            },
+            function () {
+                $(obj).parents("tr").find(".td-manage").prepend('<a class="c-primary" onClick="picture_shenqing(this,id)" href="javascript:;" title="申请上线">申请上线</a>');
+                $(obj).parents("tr").find(".td-status").html('<span class="label label-danger radius">未通过</span>');
+                $(obj).remove();
+                layer.msg('未通过', {icon: 5, time: 1000});
+            });
+    }
+
+    /*图片-下架*/
+    function picture_stop(obj, id) {
+        layer.confirm('确认要下架吗？', function (index) {
+            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="picture_start(this,id)" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>');
+            $(obj).parents("tr").find(".td-status").html('<span class="label label-defaunt radius">已下架</span>');
+            $(obj).remove();
+            layer.msg('已下架!', {icon: 5, time: 1000});
+        });
+    }
+
+    /*图片-发布*/
+    function picture_start(obj, id) {
+        layer.confirm('确认要发布吗？', function (index) {
+            $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="picture_stop(this,id)" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>');
+            $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已发布</span>');
+            $(obj).remove();
+            layer.msg('已发布!', {icon: 6, time: 1000});
+        });
+    }
+
+    /*图片-申请上线*/
+    function picture_shenqing(obj, id) {
+        $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">待审核</span>');
+        $(obj).parents("tr").find(".td-manage").html("");
+        layer.msg('已提交申请，耐心等待审核!', {icon: 1, time: 2000});
+    }
+
+    /*图片-编辑*/
+    function picture_edit(title, url, id) {
+        var index = layer.open({
+            type: 2,
+            title: title,
+            content: url
+        });
+        layer.full(index);
+    }
+
+    /*图片-删除*/
+    function picture_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: '',
+                dataType: 'json',
+                success: function (data) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {icon: 1, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+</script>
+</body>
+</html>
