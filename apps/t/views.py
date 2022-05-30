@@ -36,9 +36,9 @@ class UnfinishView(View):
         # 获取权限
         hav_view_prem = False
         count = 0
-        count = count + request.user.user_permissions.filter(codename='view_t_wj_unfinish').count()
+        count = count + request.user.user_permissions.filter(codename='view_wj_unfinish').count()
         for i in request.user.groups.all():
-            count = count + i.permissions.filter(codename='view_t_wj_unfinish').count()
+            count = count + i.permissions.filter(codename='view_wj_unfinish').count()
         if count != 0:
             hav_view_prem = True
 
@@ -154,9 +154,9 @@ class FinishView(View):
         # 获取权限
         hav_view_prem = False
         count = 0
-        count = count + request.user.user_permissions.filter(codename='view_t_wj_unfinish').count()
+        count = count + request.user.user_permissions.filter(codename='view_wj_unfinish').count()
         for i in request.user.groups.all():
-            count = count + i.permissions.filter(codename='view_t_wj_unfinish').count()
+            count = count + i.permissions.filter(codename='view_wj_unfinish').count()
         if count != 0:
             hav_view_prem = True
 

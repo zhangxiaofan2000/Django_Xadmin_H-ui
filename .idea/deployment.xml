@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="1" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false" showDifferentInSync="false" showExcludedInSync="true">
+  <component name="PublishConfigData" autoUpload="Always" serverName="root@110.40.240.168:22 agent" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false" showDifferentInSync="false" showExcludedInSync="true">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="1">
         <serverdata>
           <mappings>
             <mapping deploy="/home/t_plat" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="root@110.40.240.168:22 agent">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/t_plat" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>

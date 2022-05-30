@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:mysql://localhost:3306/bnh_xkzx_mask</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="110.40.240.168" uuid="ff15a593-3f5e-4fcb-8544-7d6a2f53e281">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://110.40.240.168:3306/bnh_xkzx_mask</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
