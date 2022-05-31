@@ -79,7 +79,6 @@ class IndexView(View):
 
 
         return render( request,'index.html')
-
 class HomeView(View):
 
     def get(self,request):

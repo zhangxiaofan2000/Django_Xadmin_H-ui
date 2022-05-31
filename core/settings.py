@@ -17,6 +17,7 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+sys.path.append('.')
 sys.path.insert(0, BASE_DIR)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
@@ -52,7 +53,7 @@ INSTALLED_APPS = [
     'pure_pagination',
     'django_users',
     't',
-    'grp',
+    'grp'
 
 
 
@@ -158,7 +159,7 @@ LOGIN_URL = '/login/' # 根据你网站的实际登陆地址来设置
 
 
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '../../media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #分页相关设置

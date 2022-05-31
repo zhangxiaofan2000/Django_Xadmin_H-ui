@@ -18,7 +18,7 @@ from django.conf.urls import url, include
 from django.views.static import serve
 
 import xadmin
-from t_plat.settings import MEDIA_ROOT
+from core.settings import MEDIA_ROOT
 
 
 from apps.django_users.views import IndexView,HomeView,NotOpeView,PasswordResetView,UserInfo,LoginView,LogoutView
