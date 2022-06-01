@@ -13,7 +13,7 @@
       <paths name="root@110.40.240.168:22 agent">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/t_plat" local="$PROJECT_DIR$" />
+            <mapping deploy="/root/home/t_plat" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
