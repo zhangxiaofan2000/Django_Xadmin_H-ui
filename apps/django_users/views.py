@@ -17,10 +17,10 @@ from utils.mixin_utils import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Count
 
-from apps.django_users.models import UserProfile
-from apps.t.models import wj_unfinish
-from apps.grp.models import archive
-from apps.django_users.forms import LoginForm, ModifyPwdForm
+from django_users.models import UserProfile
+from t.models import wj_unfinish
+from grp.models import archive
+from django_users.forms import LoginForm, ModifyPwdForm
 from django.http.response import HttpResponseRedirect,HttpResponseNotFound,HttpResponseServerError
 
 

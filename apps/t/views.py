@@ -17,8 +17,8 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from utils.mixin_utils import LoginRequiredMixin
 
-from apps.t.models import wj_unfinish,wj_finish
-from apps.t.forms import SoundRecordForm,FinshInfoForm
+from t.models import wj_unfinish,wj_finish
+from t.forms import SoundRecordForm,FinshInfoForm
 
 
 

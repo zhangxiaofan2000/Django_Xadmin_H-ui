@@ -29,7 +29,7 @@ ACTION_NAME = {
     'view': _('Can view %s'),
 }
 
-from apps.django_users.models import UserProfile
+from django_users.models import UserProfile
 from import_export import resources
 
 

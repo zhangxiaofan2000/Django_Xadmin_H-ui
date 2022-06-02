@@ -1,4 +1,4 @@
-"""t_plat URL Configuration
+"""core URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -21,7 +21,7 @@ import xadmin
 from core.settings import MEDIA_ROOT
 
 
-from apps.django_users.views import IndexView,HomeView,NotOpeView,PasswordResetView,UserInfo,LoginView,LogoutView
+from django_users.views import IndexView,HomeView,NotOpeView,PasswordResetView,UserInfo,LoginView,LogoutView
 
 
 urlpatterns = [

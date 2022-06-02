@@ -1,6 +1,6 @@
 
 from django import forms
-from apps.django_users.models import UserProfile
+from django_users.models import UserProfile
 
 class LoginForm(forms.Form):
     username = forms.CharField(required=True)

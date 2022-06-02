@@ -1,7 +1,7 @@
 import xadmin
 
 
-from apps.grp.models import archive
+from grp.models import archive
 from import_export import resources
 
 class GrpUnfinishRes(resources.ModelResource):

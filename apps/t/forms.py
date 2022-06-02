@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.t.models import wj_finish
+from t.models import wj_finish
 
 class SoundRecordForm(forms.ModelForm):
 

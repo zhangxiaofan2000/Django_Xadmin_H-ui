@@ -1,7 +1,7 @@
 import xadmin
 
 
-from apps.t.models import wj_unfinish,wj_finish
+from t.models import wj_unfinish,wj_finish
 from import_export import resources
 
 class UnfinishRes(resources.ModelResource):

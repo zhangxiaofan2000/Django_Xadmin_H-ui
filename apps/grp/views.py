@@ -2,7 +2,7 @@ from datetime import datetime
 from django.views.generic import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from apps.grp.models import archive
+from grp.models import archive
 from django.shortcuts import render
 
 # Create your views here.

@@ -7,7 +7,7 @@ from django.db import models
 from datetime import datetime
 from django.utils.deconstruct import deconstructible
 
-from apps.django_users.models import UserProfile
+from django_users.models import UserProfile
 # Create your models here.
 REASON1_CHIOCES=(
     ("无人接听","无人接听"),
