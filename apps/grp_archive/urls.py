@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 from django.urls import path
-from grp.views import UnfinishView,FinishView
+from .views import UnfinishView,FinishView
 
 urlpatterns = [
 

@@ -18,7 +18,6 @@ import sys
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# sys.path.insert(0, Path(__file__).resolve().parent)
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
@@ -30,7 +29,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'django-insecure-r7kpoz!*0!%rj3m0ht53sp7$mh5^pl!m2-cst2-fsl82!@g4j*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -49,16 +48,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_users',
     't',
-    'grp',
+    'grp_archive',
     'xadmin',
     'reversion',
     'import_export',
     'crispy_forms',
     'pure_pagination',
-
-
-
-
 ]
 
 
@@ -147,11 +142,13 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-   os.path.join( BASE_DIR ,'static/')
-]
+if DEBUG:
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = [
+       os.path.join( BASE_DIR ,'static/')
+    ]
+else:
+    pass
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -161,7 +158,7 @@ LOGIN_URL = '/login/' # 根据你网站的实际登陆地址来设置
 
 
 
-MEDIA_URL = '../../media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #分页相关设置

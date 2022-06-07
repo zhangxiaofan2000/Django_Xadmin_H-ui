@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class GrpConfig(AppConfig):
+class GrpArchiveConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'grp'
+    name = 'grp_archive'
     verbose_name = '团非车清单'
