@@ -23,6 +23,14 @@ from t.forms import SoundRecordForm,FinshInfoForm
 
 
 
+class UploadView(View):
+    def get(self,request):
+
+        return render(request,'audio-add.html')
+
+    def post(self,request):
+        pass
+
 
 
 
