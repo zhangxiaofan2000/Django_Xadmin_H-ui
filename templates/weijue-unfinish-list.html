@@ -137,15 +137,15 @@
                     <td>{{ task.tracering_date}}</td>
                     <td class="td-manage">
 
-                        <li><a title="编辑" href="javascript:;" onclick="member_edit('编辑','{% url 'weijue:upload' %}','{{ report_no }}','','300')"
-											 style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a></li>
+                        <a title="编辑" class="btn btn-primary radius btn-upload" href="javascript:;" onclick="member_edit('录音上传','{% url 'weijue:upload' task.report_no  %}','500','400')"
+											 style="text-decoration:none"><i class="Hui-iconfont">&#xe642;</i> 上传</a>
 
-                        <span class="btn-upload">
-                      <a href="javascript:void(0);" class="btn btn-primary radius btn-upload">
-                          <i class="Hui-iconfont">&#xe642;</i> 上传</a>
-                      <input type="file" multiple name="sound_record" class="input-file">
+{#                        <span class="btn-upload">#}
+{#                      <a href="javascript:void(0);" class="btn btn-primary radius btn-upload">#}
+{#                          <i class="Hui-iconfont">&#xe642;</i> 上传</a>#}
+{#                      <input type="file" multiple name="sound_record" class="input-file">#}
 {#                            <input type="file" name="myfile">  只能提交一个文件#}
-                    </span>
+{#                    </span>#}
                     </td>
 
                     <td class="td-manage">
@@ -203,12 +203,49 @@
 <!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="{% static 'lib/My97DatePicker/4.8/WdatePicker.js' %}"></script>
 {#<script type="text/javascript" src="{% static 'lib/datatables/1.10.15/jquery.dataTables.min.js' %}"></script>#}
-<script type="text/javascript" src="{% static 'lib/laypage/1.2/laypage.js' %}"></script>
 <script type="text/javascript">
 
-    function member_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
-}
+    function member_edit(title,url,w,h){
+
+        layer_show(title,url,w,h);
+
+
+    }
+
+    {#layui.use(['layer', 'jquery'], function () {#}
+    {#    var $ = layui.$;#}
+    {#    layer = layui.layer;#}
+    {##}
+    {#    $("#sendsubmi").click(function () {#}
+    {##}
+    {#        var report_no = $('#report_no').val();#}
+    {##}
+    {#        $.ajax({#}
+    {#            type: 'post',#}
+    {#            url: '{% url 'weijue:upload' %}', //发送请求#}
+    {#            data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'report_no':report_no},#}
+    {#            dataType: 'json',#}
+    {#            success: function (datad) {#}
+    {#                if (datad.stat === "1"){#}
+    {#                    layer.msg(datad.mrg, {icon: 1, offset: "auto", time: 2000});#}
+    {#                    window.location = '{% url 'login' %}';#}
+    {#                }#}
+    {#                else {#}
+    {#                    layer.msg('修改密码失败，请确认你的信息', {icon: 2, offset: "auto", time: 2000});#}
+    {#                }#}
+    {##}
+    {##}
+    {#            },#}
+    {#            error: function () {#}
+    {#                layer.msg("发送失败，请确认你的信息！", {icon: 2, offset: "auto", time: 2000});#}
+    {#            }#}
+    {#        });#}
+    {##}
+    {#    });#}
+    {##}
+    {#})#}
+
 </script>
+<script type="text/javascript" src="{% static 'lib/laypage/1.2/laypage.js' %}"></script>
 </body>
 </html>

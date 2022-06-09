@@ -12,6 +12,8 @@ from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth.decorators import permission_required
+from django.views.decorators.csrf import csrf_exempt
+
 from django.contrib.auth.context_processors import PermWrapper
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -24,12 +26,41 @@ from t.forms import SoundRecordForm,FinshInfoForm
 
 
 class UploadView(View):
-    def get(self,request):
+    def get(self,request,report_no):
 
-        return render(request,'audio-add.html')
+        wj_unfinish_task = wj_unfinish.objects.get(report_no=report_no)
 
-    def post(self,request):
-        pass
+        content = {
+            'report_no':report_no,
+            'unfinish_task':wj_unfinish_task
+        }
+        return render(request,'audio-add2.html',content)
+
+
+    def post(self,request,report_no):
+
+        finish_task = wj_finish.objects.filter(report_no=request.POST.get("report_no")).first()
+        data = model_to_dict(finish_task)
+        data.update(request.POST.dict())
+        data['wj_reason1'] = request.POST.get("wj_reason1")
+        data['case_closed'] = request.POST.get("case_closed")
+
+        data['remake'] = request.POST.get("remake")
+        data['finish_time'] = datetime.now()
+
+        finish_form = FinshInfoForm(data, request.FILES, instance=finish_task)
+        if finish_form.is_valid():
+            finish_form.save()
+
+
+        wj_unfinish_task = wj_unfinish.objects.get(report_no=report_no)
+        data = model_to_dict(wj_unfinish_task)
+        data.update(request.POST.dict())
+        unfinish_form = SoundRecordForm(data,request.FILES, instance=wj_unfinish_task)
+        if unfinish_form.is_valid():
+            unfinish_form.save()
+
+        return HttpResponse('{"status":"success", "msg":"上传成功"}', content_type='application/json')
 
 
 
@@ -113,7 +144,6 @@ class UnfinishView(View):
         data['finish_time'] = datetime.now()
 
         finish_form = FinshInfoForm(data, request.FILES, instance=finish_task)
-
 
 
         if finish_form.is_valid():
