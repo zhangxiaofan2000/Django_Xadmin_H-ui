@@ -5,7 +5,7 @@ from t.models import wj_finish,wj_unfinish
 class SoundRecordForm(forms.ModelForm):
 
     class Meta:
-        model = wj_finish
+        model = wj_unfinish
         fields = ['id', 'dpt_name', 'report_no', 'report_date', 'register_date', 'car_person',
                  'estimate_amount', 'car_amount', 'injured_amount', 'visited', 'tracer',
                   'visit_phone', 'wj_reason1', 'wj_reason2', 'wj_reason3', 'is_coupon', 'remake',

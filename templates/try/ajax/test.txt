@@ -1,0 +1,2 @@
+<a title="编辑" class="btn btn-primary radius btn-upload" href="javascript:;" onclick="member_edit('录音上传','{% url 'weijue:upload' task.report_no  %}','500','400')"
+											 style="text-decoration:none"><i class="Hui-iconfont">&#xe642;</i> 上传成功</a>

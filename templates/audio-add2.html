@@ -27,17 +27,24 @@
 <body>
  {% csrf_token %}
 <div class="container kv-main">
-    <form id='form' enctype="multipart/form-data" action="/weijue/upload/{{ report_no }} " method="post">
+    <form enctype="multipart/form-data" action="/weijue/upload/{{ report_no }} " method="post">
         <div class="file-loading">
             <input id="kv-explorer" type="file" multiple name="sound_record" class="input-file">
 {#            <input id="kv-explorer" type="file" name="sound_record" multiple>#}
         </div>
+
+{#			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2" >#}
+{#				<button type="button" class="btn btn-success radius" onclick="closslayer()" id="audio_upload_form" name="audio_upload_form"><i class="icon-ok"></i> 确定</button>#}
+{#			</div>#}
+        {% csrf_token %}
     </form>
 
 </div>
 </body>
 </html>
 <script>
+
+
     $(document).ready(function () {
         $("#kv-explorer").fileinput({
             'theme': 'explorer-fa',
@@ -49,6 +56,54 @@
             initialDelimiter: '*$$*',//在initialPreview属性中用于上传多个文件时的分隔符。默认值：'*$$*'。
             overwriteInitial: false,
         });
+
+
     });
 
+
+        function closslayer(){
+
+        var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+
+    }
+
+
+
+
+    $(document).ajaxSend(function(event, xhr, settings) {
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+        var cookie = jQuery.trim(cookies[i]);
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) == (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  function sameOrigin(url) {
+    // url could be relative or scheme relative or absolute
+    var host = document.location.host; // host + port
+    var protocol = document.location.protocol;
+    var sr_origin = '//' + host;
+    var origin = protocol + sr_origin;
+    // Allow absolute or scheme relative URLs to same origin
+    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+      (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+      // or any other URL that isn't scheme relative or absolute i.e relative.
+      !(/^(\/\/|http:|https:).*/.test(url));
+  }
+  function safeMethod(method) {
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+  if (!safeMethod(settings.type) && sameOrigin(settings.url)) {
+    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+  }
+});
 </script>

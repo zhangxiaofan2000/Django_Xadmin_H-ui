@@ -39,29 +39,17 @@ class UploadView(View):
 
     def post(self,request,report_no):
 
-        finish_task = wj_finish.objects.filter(report_no=request.POST.get("report_no")).first()
-        data = model_to_dict(finish_task)
-        data.update(request.POST.dict())
-        data['wj_reason1'] = request.POST.get("wj_reason1")
-        data['case_closed'] = request.POST.get("case_closed")
-
-        data['remake'] = request.POST.get("remake")
-        data['finish_time'] = datetime.now()
-
-        finish_form = FinshInfoForm(data, request.FILES, instance=finish_task)
-        if finish_form.is_valid():
-            finish_form.save()
-
-
         wj_unfinish_task = wj_unfinish.objects.get(report_no=report_no)
         data = model_to_dict(wj_unfinish_task)
         data.update(request.POST.dict())
+
         unfinish_form = SoundRecordForm(data,request.FILES, instance=wj_unfinish_task)
         if unfinish_form.is_valid():
             unfinish_form.save()
 
-        return HttpResponse('{"status":"success", "msg":"上传成功"}', content_type='application/json')
-
+            return HttpResponse('{"status":"success", "msg":"上传成功"}', content_type='application/json')
+        else:
+            return HttpResponse('{"status":"fail", "msg":"上传失败"}', content_type='application/json')
 
 
 
@@ -143,7 +131,8 @@ class UnfinishView(View):
         data['remake'] = request.POST.get("remake")
         data['finish_time'] = datetime.now()
 
-        finish_form = FinshInfoForm(data, request.FILES, instance=finish_task)
+        finish_form = FinshInfoForm(data, files={"sound_record":data['sound_record']}, instance=finish_task)
+
 
 
         if finish_form.is_valid():
