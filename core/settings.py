@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import sys
-
+import time
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 
@@ -142,13 +142,15 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+STATIC_URL = '/static/'
+
 if DEBUG:
-    STATIC_URL = '/static/'
     STATICFILES_DIRS = [
-       os.path.join( BASE_DIR ,'static/')
+       os.path.join( BASE_DIR ,'static')
     ]
 else:
-    pass
+    STATIC_ROOT=os.path.join(BASE_DIR, 'static')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
