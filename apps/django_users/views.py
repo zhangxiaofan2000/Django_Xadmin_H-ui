@@ -103,6 +103,7 @@ class HomeView(View):
                                               ).count() for i in dpt_list]
 
         bd_sum =[archive.objects.filter(third_department_abbr_name = i ).count()  for i in dpt_list]
+        bd_sum =[archive.objects.filter(Q(third_department_abbr_name = i) & Q(is_return=None)).count()  for i in dpt_list]
 
         wj_num = wj_unfinish.objects.all().count()
         bd_num = archive.objects.all().count()
