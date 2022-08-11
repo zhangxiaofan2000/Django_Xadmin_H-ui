@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 SECRET_KEY = 'django-insecure-r7kpoz!*0!%rj3m0ht53sp7$mh5^pl!m2-cst2-fsl82!@g4j*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'import_export',
     'crispy_forms',
     'pure_pagination',
+    'xadmin_inline',
 ]
 
 
@@ -143,13 +144,17 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-if DEBUG:
-    STATICFILES_DIRS = [
-       os.path.join( BASE_DIR ,'static')
-    ]
-else:
-    STATIC_ROOT=os.path.join(BASE_DIR, 'static')
+# if DEBUG:
+#     STATICFILES_DIRS = [
+#        os.path.join( BASE_DIR ,'static')
+#     ]
+#     STATIC_ROOT = os.path.join(BASE_DIR, "static")
+#
+#
+# else:
+#     STATIC_ROOT=os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
