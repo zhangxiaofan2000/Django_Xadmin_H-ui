@@ -10,10 +10,10 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="root@110.40.240.168:22 agent">
+      <paths name="root@110.40.240.168:22 password">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/t_plat" local="$PROJECT_DIR$" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

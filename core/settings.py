@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-r7kpoz!*0!%rj3m0ht53sp7$mh5^pl!m2-cst2-fsl82!@g4j*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -56,6 +57,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'pure_pagination',
     'xadmin_inline',
+    'captcha',
+    'sslserver',
+
 ]
 
 
@@ -95,17 +99,29 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "bnh_xkzx_mask",
-        'USER': 'root',
-        'PASSWORD': "123456",
-        'HOST': "110.40.240.168",
-        'PORT': "3306"
+if  DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': "bnh_xkzx_mask",
+            'USER': 'root',
+            'PASSWORD': "123456",
+            'HOST': "127.0.0.1",
+            'PORT': "3306"
+        }
     }
-}
+
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': "bnh_xkzx_mask",
+            'USER': 'root',
+            'PASSWORD': "123456",
+            'HOST': "110.40.240.168",
+            'PORT': "3306"
+        }
+    }
 
 
 # Password validation
@@ -145,7 +161,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # if DEBUG:
 #     STATICFILES_DIRS = [
@@ -177,3 +193,20 @@ PAGINATION_SETTINGS = {
     'SHOW_FIRST_PAGE_WHEN_INVALID': True,
 }
 
+
+# redis相关配置
+REDIS_HOST = "127.0.0.1"
+REDIS_PORT = 6379
+REDIS_PASSWORD = '123456.'
+
+
+TENCENT_SMS_APPID = "1400727894"  # API秘钥管理SecretId
+TENCENT_SMS_APPKEY = "6dcf496766c220a392c0ae9a5c84c59e"  # API秘钥管理SecretKey
+TENCENT_SMS_SIGN ="个人学习记录个人网"  # 签名管理里面的 自己腾讯云创建签名时填写的签名内容（使用公众号的话这个值一般是公众号全称或简称）
+# templates 短信
+
+TENCENT_SMS_TEMPLATES = {
+    'login': 1523734,# 登录模板ID
+    # 'register': 1523734,
+
+}

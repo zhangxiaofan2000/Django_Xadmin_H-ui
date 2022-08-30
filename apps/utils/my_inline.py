@@ -4,9 +4,36 @@ from __future__ import unicode_literals
 from collections import defaultdict
 
 from django.contrib.admin import helpers
-from django.contrib.admin.options import InlineModelAdmin, ModelAdmin
+from django.contrib.admin.options import ModelAdmin
 
 
+
+
+
+class SuperModelAdmin(ModelAdmin):
+    def _create_formsets(self, request, obj, change):
+        formsets, inline_instances = super(
+            SuperModelAdmin, self)._create_formsets(request, obj, change)
+        for formset, inline_instance in zip(formsets, inline_instances):
+            if not isinstance(inline_instance, SuperInlineModelAdmin):
+                continue
+            for index, form in enumerate(formset.forms):
+                new_formsets, new_inline_instances = \
+                    inline_instance._create_formsets(request, form.instance,
+                                                     change, index, False)
+                # If an empty inline form has non-empty sub-inline instances,
+                # we force the save of that empty inline, so that it will be
+                # validated.
+                if any(new_form.has_changed() for new_formset in new_formsets
+                       for new_form in new_formset):
+                    form.has_changed = lambda: True
+
+                formsets.extend(new_formsets)
+                inline_instances.extend(new_inline_instances)
+        return formsets, inline_instances
+
+
+from xadmin.plugins.inline import InlineModelAdmin
 class SuperInlineModelAdmin(InlineModelAdmin):
     inlines = ()
 
@@ -77,26 +104,3 @@ class SuperInlineModelAdmin(InlineModelAdmin):
                 fieldsets, prepopulated, readonly, model_admin=self)
             inline_admin_formsets.append(inline_admin_formset)
         return inline_admin_formsets
-
-
-class SuperModelAdmin(ModelAdmin):
-    def _create_formsets(self, request, obj, change):
-        formsets, inline_instances = super(
-            SuperModelAdmin, self)._create_formsets(request, obj, change)
-        for formset, inline_instance in zip(formsets, inline_instances):
-            if not isinstance(inline_instance, SuperInlineModelAdmin):
-                continue
-            for index, form in enumerate(formset.forms):
-                new_formsets, new_inline_instances = \
-                    inline_instance._create_formsets(request, form.instance,
-                                                     change, index, False)
-                # If an empty inline form has non-empty sub-inline instances,
-                # we force the save of that empty inline, so that it will be
-                # validated.
-                if any(new_form.has_changed() for new_formset in new_formsets
-                       for new_form in new_formset):
-                    form.has_changed = lambda: True
-
-                formsets.extend(new_formsets)
-                inline_instances.extend(new_inline_instances)
-        return formsets, inline_instances

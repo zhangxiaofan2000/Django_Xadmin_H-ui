@@ -13,6 +13,9 @@ python manage.py makemigrations
 
 python manage.py migrate
 
+/root/redis-6.0.3/src/redis-server /root/redis-6.0.3/redis.conf
+
+
 '''
 
 

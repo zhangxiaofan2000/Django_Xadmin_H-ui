@@ -1,11 +1,12 @@
 
 import  json
 
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 
 from django.db.models import Q
 from django.views.generic.base import View
@@ -17,6 +18,12 @@ from utils.mixin_utils import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Count
 
+from core.settings import  REDIS_HOST, REDIS_PORT,REDIS_PASSWORD
+from apps.utils.tencentcloud_sms import send_single_sms
+from django_users.forms import DynamicLoginPostForm,DynamicLoginForm
+import random
+import redis
+
 from .models import UserProfile
 from t.models import wj_unfinish
 from grp_archive.models import archive
@@ -25,6 +32,95 @@ from django.http.response import HttpResponseRedirect,HttpResponseNotFound,HttpR
 
 
 # Create your views here.
+
+
+
+class DynamicLoginView(View):
+    """
+    动态验证码登录
+    """
+
+    def post(self, request, *args, **kwargs):
+        login_form = DynamicLoginPostForm(request.POST)
+        if login_form.is_valid():
+            # 需求：没有注册依然也可以登录
+            # 查询表中，有没有这个手机号
+            mobile = login_form.cleaned_data["mobile"]
+            existed_user = UserProfile.objects.filter(username=mobile)
+
+            if existed_user:
+                # 如果用户存在的话，就取出这个用户对象
+                user = existed_user[0]
+            else:
+                # 用户不存在，就新建一个用户(这里的用户名当然要指向mobile了)
+                user = UserProfile(username=mobile)
+                # 因为这个用户是使用设计验证码登录的，以前没有这用户，所以也就没有他的密码，但是密码这个字段有时必填字段
+                password = str(random.randrange(10000000, 99999999))  # 生成一个8位的随机密码
+                user.set_password(password)  # 以密文的方式保存到数据库
+                user.username = mobile  # 因为这个是必填字段，所以要给mobile也指定一个值
+                user.save()
+
+            # 执行登录操作
+            login(request, user)
+
+            # 用户登陆之前正在访问哪个页面，就让他登陆后停留在哪个页面
+            next = request.GET.get("next", "")
+            if next:
+                return redirect(next)
+
+            return redirect(reverse("index"))
+        else:
+            # 当为手机验证码登录失败是，这里为True
+            dynamic_login = True
+            # 动态图形验证码
+            d_form = DynamicLoginForm()
+
+            return render(request, "login.html", {
+                "login_form": login_form,
+                "dynamic_login": dynamic_login,
+                'd_form': d_form,
+
+            })
+
+
+class SendSmsView(View):
+    """
+    发送短信验证码
+    """
+
+    def post(self, request, *args, **kwargs):
+        # 验证图形验证码是否正确
+        send_sms_form = DynamicLoginForm(request.POST)
+        re_dict = {}
+        if send_sms_form.is_valid():
+
+            mobile = send_sms_form.cleaned_data["mobile"]
+            # 随机生成验证码
+
+            code = random.randrange(1000, 9999)  # 生成一个4位的随机密码
+            re_json = send_single_sms(mobile,1526589,[code,5])
+
+
+            if re_json["result"] == 0:
+                re_dict["status"] = "success"
+
+                # 把手机验证码存储到redis
+                r = redis.Redis(host='localhost', port=6379, password='123456.',db=0, charset="utf8", decode_responses=True)
+
+
+                r.set(str(mobile), code)  # 手机号与验证码（有就覆盖，没有就创建）
+
+                r.expire(str(mobile), 300)  # 300秒后过期
+
+            else:
+                re_dict["msg"] = re_json["re_json"]
+        else:
+            for key, value in send_sms_form.errors.items():
+                re_dict[key] = value[0]
+
+        return JsonResponse(re_dict)
+
+
 
 
 
@@ -38,7 +134,17 @@ class LogoutView(View):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, "login.html", {})
+        # 判断用户是否已经登录
+        if request.user.is_authenticated:
+            # 已经登录的用户，直接重定向到首页
+            return redirect(reverse("index"))
+
+        next = request.GET.get("next", "")
+        # 动态图形验证码
+        login_form = DynamicLoginForm()
+        return render(request, "login.html",
+            {"login_form": login_form,
+            "next": next,})
 
     def post(self, request):
         login_form = LoginForm(request.POST)

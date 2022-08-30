@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.views.static import serve
+from django.urls import path
 
 import xadmin
 from core.settings import MEDIA_ROOT,STATIC_ROOT
 
 
-from django_users.views import IndexView, HomeView, NotOpeView, PasswordResetView, UserInfo, LoginView, LogoutView
+from django_users.views import IndexView, HomeView, NotOpeView, PasswordResetView, UserInfo, LoginView, LogoutView,DynamicLoginView,SendSmsView
 
 
 urlpatterns = [
@@ -35,10 +36,18 @@ urlpatterns = [
     url('^login/$', LoginView.as_view(), name="login"),
     url('^logout/$', LogoutView.as_view(), name="logout"),
 
+    url(r'^captcha/', include('captcha.urls')),
+    path('dynamic_login/', DynamicLoginView.as_view(), name="dynamic_login"),
+    url(r'^send_sms/', SendSmsView.as_view(), name="send_sms"),
+
+
+
+
     url(r'^weijue/', include(('t.urls', "t"), namespace="weijue")),
     url(r'^grp/', include(('grp_archive.urls', "grp_archive"), namespace="grp")),
 
     url(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve, {"document_root": STATIC_ROOT}),
+
 
 ]
